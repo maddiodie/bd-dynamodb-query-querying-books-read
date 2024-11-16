@@ -39,7 +39,8 @@ public class BookDAOTest {
 
         // GIVEN
         when(mapper.query(eq(Book.class), any(DynamoDBQueryExpression.class))).thenReturn(books);
-        ArgumentCaptor<DynamoDBQueryExpression<Book>> captor = ArgumentCaptor.forClass(DynamoDBQueryExpression.class);
+        ArgumentCaptor<DynamoDBQueryExpression<Book>> captor = ArgumentCaptor
+                .forClass(DynamoDBQueryExpression.class);
 
         // WHEN
         List<Book> result = bookDao.getBooksReadByEmployee(employeeId);
@@ -50,7 +51,6 @@ public class BookDAOTest {
         Book queriedBook = captor.getValue().getHashKeyValues();
         assertEquals(employeeId, queriedBook.getId(), "Expected query expression to query for " +
             "partition key: " + employeeId);
-
     }
 
 }
