@@ -31,12 +31,10 @@ public class BookDAO {
 
         DynamoDBQueryExpression<Book> queryExpression = new DynamoDBQueryExpression<Book>()
                 .withHashKeyValues(book);
-        mapper = new DynamoDBMapper(DynamoDbClientProvider.getDynamoDBClient());
 
         PaginatedQueryList<Book> pagList = mapper.query(Book.class, queryExpression);
-        List<Book> bookList = new ArrayList<>(pagList);
 
-        return bookList;
+        return pagList;
     }
 
 }
