@@ -7,7 +7,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,6 +27,9 @@ public class BookDAOTest {
     DynamoDBMapper mapper;
 
     @Mock
+    List<Book> bookList;
+
+    @Mock
     PaginatedQueryList<Book> books;
 
     @BeforeEach
@@ -37,9 +42,9 @@ public class BookDAOTest {
         //GIVEN
         String employeeId = "5b2ccd28";
 
-        // GIVEN
         when(mapper.query(eq(Book.class), any(DynamoDBQueryExpression.class))).thenReturn(books);
-        ArgumentCaptor<DynamoDBQueryExpression<Book>> captor = ArgumentCaptor.forClass(DynamoDBQueryExpression.class);
+        ArgumentCaptor<DynamoDBQueryExpression<Book>> captor = ArgumentCaptor
+                .forClass(DynamoDBQueryExpression.class);
 
         // WHEN
         List<Book> result = bookDao.getBooksReadByEmployee(employeeId);
@@ -50,7 +55,6 @@ public class BookDAOTest {
         Book queriedBook = captor.getValue().getHashKeyValues();
         assertEquals(employeeId, queriedBook.getId(), "Expected query expression to query for " +
             "partition key: " + employeeId);
-
     }
 
 }
